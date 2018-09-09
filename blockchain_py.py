@@ -94,6 +94,15 @@ def get_chain():
                  'length' : len(blockchain.chain)}
     return jsonify(response), 200  #postman API accpepts json, 200 for HTTP Success Code(OK)
 
+#Check if Blockchain is valid
+@app.route('/is_valid', methods = ['GET'])
+def is_valid():
+    if blockchain.is_chain_valid():
+        msg = 'Yes, this blockchain is valid'
+    else:
+        msg = 'No, sadly it is corrupted blockchain'
+    response = { 'message' : msg }
+    return jsonify(response), 200  #postman API accpepts json, 200 for HTTP Success Code(OK)
 
 #Running the App using Postman and Flask
 app.run(host='0.0.0.0', port = 5000)
