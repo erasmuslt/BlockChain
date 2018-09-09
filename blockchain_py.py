@@ -44,15 +44,36 @@ class BlockChain:
     def hash(self, block):
         encoded_block = json.dumps(block, sort_keys=True).encode()
         return hashlib.sha256(encoded_block).hexdigest()
-            
-            
-            
-    
-    
-    
-        
-    
-   
 
+    def is_chain_valid(self, chain):
+        previos_block = chain[0]
+        block_index = 1
+        while block_index < len(chain):
+            block = chain[block_index]
+            if block['previous_hash'] != self.hash(previous_block):
+                return False
+
+            previous_proof = previous_block['proof']
+            proof = block['proof']
+            hash_operation = hashlib.sha256(str(proof**2 - previous_proof**2).encode().hexdigest()) #sha256 accept only string
+                        
+            if hash_operation[:4] !='0000':
+                return False
+            previous_block = block
+            block_index += 1
+
+        return True
+    
 # Part 2 - Mining Our Block
+
+#creating a new Web App
+
+app = Flask(__name__)
+
+blockchain = Blockchain()
+@app.route('/mine_block', methods = ['GET'])
+
+
+
+
 
